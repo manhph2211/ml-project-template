@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from pydantic import BaseModel
 import pickle
 import re
@@ -8,8 +8,8 @@ __version__ = "0.1.0"
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
 
-with open(f"{BASE_DIR}/weights/model-{__version__}.pkl", "rb") as f:
-    model = pickle.load(f)
+# with open(f"{BASE_DIR}/weights/model-{__version__}.pkl", "rb") as f:
+#     model = pickle.load(f)
 
 def predict(text):
     text = re.sub(r'[!@#$(),\n"%^*?\:;~`a-z]', " ", text)
@@ -19,6 +19,11 @@ def predict(text):
 
 
 app = FastAPI()
+
+
+@app.post("/login/")
+async def login(username: str = Form(), password: str = Form()):
+    return {"username": username}
 
 
 class TextIn(BaseModel):
