@@ -4,8 +4,10 @@ import pickle
 import re
 from pathlib import Path
 from PIL import Image
-from io import BytesIO
 import uvicorn
+import sys
+sys.path.append("../")
+
 
 app = FastAPI()
 
@@ -39,15 +41,15 @@ def home():
 
 @app.post("/{style}")
 def get_image(style: str, file: UploadFile = File(...)):
-    return {"name": "Update later"}
+    return {"name": file.filename}
 
 
 @app.post("/gen")
 async def gen(payload: TextIn):
     # Generate the predicted image
     img = Image.new('RGB', (100, 100), color = (73, 109, 137))
-    img = img.save("backend/output/images/output.jpg")
-    return {"name":"backend/output/images/output.jpg"}
+    img = img.save("output/images/output.jpg")
+    return {"name":f"output/images/output.jpg"}
 
 
 if __name__ == "__main__":

@@ -1,1 +1,2 @@
+protobuf==3.19.0
 streamlit==1.2.0
