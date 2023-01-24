@@ -39,17 +39,12 @@ def home():
     return {"health_check": "OK", "model_version": __version__ }
 
 
-@app.post("/{style}")
-def get_image(style: str, file: UploadFile = File(...)):
-    return {"name": file.filename}
-
-
 @app.post("/gen")
-async def gen(payload: TextIn):
+async def gen(text):
     # Generate the predicted image
     img = Image.new('RGB', (100, 100), color = (73, 109, 137))
-    img = img.save("output/images/output.jpg")
-    return {"name":f"output/images/output.jpg"}
+    img = img.save(f"/storage/{text.text}.jpg")
+    return {"name":f"/storage/{text.text}.jpg"}
 
 
 if __name__ == "__main__":
