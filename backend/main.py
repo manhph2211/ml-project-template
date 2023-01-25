@@ -40,7 +40,7 @@ def home():
 @app.post("/gen")
 async def gen(text:TextIn):
     # Generate the predicted image
-    img = Image.new('RGB', (150, 100), color = (73, 109, 137))
+    img = Image.new('RGB', (150, 100), color = (int(text.text)*20, 109, 137))
     img = img.save(f"/storage/{text.text}.jpg")
     return {"name":f"/storage/{text.text}.jpg"}
 
