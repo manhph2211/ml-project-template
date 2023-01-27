@@ -14,6 +14,5 @@ if st.button("Generate Image ..."):
         files = {"text": str(text)}
         res = requests.post(f"http://backend:8080/gen", data= json.dumps(files))
         img_path = res.json()
-        print(img_path, flush=True)
         image = Image.open(img_path.get("name"))
         st.image(image, width=500)

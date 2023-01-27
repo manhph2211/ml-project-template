@@ -1,15 +1,12 @@
 import sys
-sys.path.append('.')
-
+sys.path.append(".")
 import jax
 import haiku as hk
 import optax
 import jax.numpy as jnp
 import numpy as np
 from tqdm import tqdm
-import matplotlib.pyplot as plt
 import pickle
-from jax.experimental import optimizers
 import os
 
 from backend.src.model.cvae import vae
@@ -55,7 +52,6 @@ for epoch in range(1):
     
     pickle.dump(params, open(os.path.join("backend/output/weights", "best_ckpt.pkl"), "wb"))
     [x, y] = next(iter(val_loader))
-    print(x)
     x = jnp.array(x)
     y = jnp.array([2])
     y_1 = jnp.tile(y[:, None, None, None], (1, 1, 28, 28))

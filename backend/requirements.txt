@@ -2,5 +2,8 @@ fastapi
 pillow
 uvicorn
 python-multipart
+jax[cpu]
 dm-haiku
-optox
+optax
+numpy
+matplotlib
