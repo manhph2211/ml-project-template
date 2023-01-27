@@ -18,7 +18,7 @@ best_params = pickle.load(open(os.path.join("output/weights", "best_ckpt.pkl"), 
 
 
 def infer(num, state=state):
-    x = jnp.zeros((1, 1, 28, 28))
+    x = jnp.array(np.random.rand(1, 1, 28, 28))
     x = jnp.array(x)
     y = jnp.array([num])
     y_1 = jnp.tile(y[:, None, None, None], (1, 1, 28, 28))
