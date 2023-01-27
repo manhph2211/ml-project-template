@@ -2,3 +2,5 @@ fastapi
 pillow
 uvicorn
 python-multipart
+dm-haiku
+optox

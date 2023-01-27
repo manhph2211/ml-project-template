@@ -8,6 +8,9 @@ import jax.numpy as jnp
 import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import pickle
+from jax.experimental import optimizers
+import os
 
 from backend.src.model.cvae import vae
 from backend.src.datasets.mnist import train_loader, val_loader
@@ -41,7 +44,7 @@ def step(params, opt_state, state, batch):
     params = optax.apply_updates(params, updates)
     return params, opt_state, loss_value
 
-for epoch in range(2):
+for epoch in range(1):
     for x, y in tqdm(train_loader):
         x = jnp.array(x)
         y = jnp.array(y)
@@ -49,12 +52,17 @@ for epoch in range(2):
         x = jnp.concatenate((x,y_1), axis=1)
         x = jnp.transpose(x, (0, 2, 3, 1))
         params, opt_state, loss_value = step(params, opt_state, state,[x ,y])
+    
+    pickle.dump(params, open(os.path.join("backend/output/weights", "best_ckpt.pkl"), "wb"))
     [x, y] = next(iter(val_loader))
+    print(x)
     x = jnp.array(x)
-    y = jnp.array([7])
-    y_1 = jnp.tile(y[:,None,None,None], (1, 1, 28, 28))
-    x = jnp.concatenate((x,y_1), axis=1)
+    y = jnp.array([2])
+    y_1 = jnp.tile(y[:, None, None, None], (1, 1, 28, 28))
+    x = jnp.concatenate((x, y_1), axis=1)
     x = jnp.transpose(x, (0, 2, 3, 1))
-    res,state = vae.apply(params, state,rng_key, [x,y])
+
+    best_params = pickle.load(open(os.path.join("backend/output/weights", "best_ckpt.pkl"), "rb"))
+    res, state = vae.apply(best_params, state, rng_key, [x, y])
     plt.imshow(res[0][0].reshape(28,28))
     plt.show()
