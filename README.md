@@ -11,4 +11,3 @@ docker-compose up -d --build
 ``` 
 
 The app is already on `localhost:8501`
-
